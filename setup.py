@@ -15,7 +15,7 @@ try:
 except:
     raise AssertionError("swiftc compiler not found!")
 
-cmd =[swiftc, "implementation.swift", "-emit-library", "-static"]
+cmd =[swiftc, "implementation.swift", "-emit-library", "-static-stdlib"]
 result = subprocess.run(cmd, capture_output=True, text=True)
 if result.returncode != 0:
     raise AssertionError(f"Failed to compile swift: {result.stderr}")
@@ -26,7 +26,7 @@ ext_modules = [
         ["bindings.cpp"],
         extra_compile_args=['-std=c++11'],  # add '-g' for debug symbols
         library_dirs=['.', f'{swiftc_dir}/../../usr/lib/swift/linux'],
-        libraries=['implementation', 'swiftCore', 'swiftSwiftOnoneSupport', 'FoundationEssentials'],
+        libraries=['implementation'],
     ),
 ]
 
